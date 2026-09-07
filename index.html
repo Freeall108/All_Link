@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b4f9c">
+<title>বাংলাদেশ নাগরিক সেবা — Smart Service Desk</title>
+<style>
+:root{--primary:#0b4f9c;--primary2:#1677d2;--green:#16a34a;--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#687386;--line:#e6ebf2;--danger:#dc2626;--shadow:0 8px 30px rgba(20,45,80,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif;background:var(--bg);color:var(--text)}
+button,input{font:inherit}.app{min-height:100vh}.top{height:70px;background:linear-gradient(120deg,#083d7a,#0b65b7);color:#fff;display:flex;align-items:center;gap:14px;padding:0 22px;position:sticky;top:0;z-index:20;box-shadow:0 4px 20px #06356b33}
+.logo{width:44px;height:44px;border-radius:12px;background:#fff;color:var(--primary);display:grid;place-items:center;font-weight:900;font-size:22px}.brand h1{font-size:20px;margin:0}.brand small{opacity:.85}.menuBtn{display:none;margin-left:auto;background:#ffffff22;border:1px solid #ffffff55;color:#fff;border-radius:10px;padding:9px 12px}
+.layout{display:flex}.side{width:250px;background:#fff;border-right:1px solid var(--line);min-height:calc(100vh - 70px);padding:18px 12px;position:sticky;top:70px;height:calc(100vh - 70px);overflow:auto}
+.navtitle{font-size:12px;color:#8a94a6;padding:10px 12px 6px}.nav{width:100%;text-align:left;border:0;background:transparent;padding:12px;border-radius:10px;cursor:pointer;color:#334155;margin:2px 0}.nav:hover,.nav.active{background:#eaf3ff;color:var(--primary);font-weight:700}.main{flex:1;padding:24px;min-width:0}.hero{background:linear-gradient(120deg,#fff,#edf6ff);border:1px solid #dceafa;border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:var(--shadow);margin-bottom:20px}.hero h2{margin:0 0 6px;font-size:24px}.hero p{margin:0;color:var(--muted)}.heroBtns{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}.primary{background:var(--primary);color:#fff}.light{background:#fff;color:var(--primary);border:1px solid #cbd8e8}.green{background:var(--green);color:#fff}.danger{background:#fee2e2;color:#991b1b}.search{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#fff;outline:none;margin-bottom:18px}.search:focus{border-color:#77a9db;box-shadow:0 0 0 3px #0b65b712}
+.section{margin:25px 0 12px;display:flex;align-items:center;justify-content:space-between}.section h3{margin:0;font-size:18px}.count{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);position:relative;transition:.18s}.card:hover{transform:translateY(-2px);border-color:#b9d1ec}.icon{width:58px;height:58px;border-radius:15px;background:#edf5ff;display:grid;place-items:center;font-size:29px;margin-bottom:12px}.card h4{margin:0 0 5px;font-size:16px}.card p{margin:0 0 13px;color:var(--muted);font-size:13px;min-height:38px}.actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:8px 10px;font-size:12px}.fav{position:absolute;right:12px;top:12px;border:0;background:transparent;cursor:pointer;font-size:20px;color:#b6bfca}.fav.on{color:#f59e0b}.empty{padding:35px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #ccd6e2;border-radius:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.stat b{font-size:23px}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.overlay{display:none;position:fixed;inset:0;background:#0007;z-index:30}.drawer{position:fixed;left:0;top:0;bottom:0;width:280px;background:#fff;z-index:31;transform:translateX(-100%);transition:.2s;padding:15px;overflow:auto}.drawer.open{transform:translateX(0)}
+.modalBg{display:none;position:fixed;inset:0;background:#0008;z-index:40;align-items:center;justify-content:center;padding:16px}.modal{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;padding:20px;position:relative}.modalClose{position:sticky;float:right;top:0;z-index:5;width:40px;height:40px;border:1px solid #d8e0ea;border-radius:50%;background:#fff;color:#c62828;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 2px 8px #00000012}.modalClose:hover{background:#fee2e2}.modalBack{border:1px solid #cbd8e8;background:#fff;color:var(--primary);border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:700}.modal h3{margin-top:0}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px}.note{background:#fff8e6;border:1px solid #f5d88a;padding:12px;border-radius:10px;font-size:13px;color:#765b08}
+footer{text-align:center;color:#7a8596;font-size:12px;padding:30px 10px}
+@media(max-width:800px){.side{display:none}.menuBtn{display:block}.main{padding:14px}.hero{display:block}.heroBtns{margin-top:14px}.stats{grid-template-columns:repeat(2,1fr)}.top{padding:0 14px}.brand h1{font-size:17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:13px}.card p{min-height:0}.icon{width:48px;height:48px;font-size:24px}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+
+.dashboard-grid{position:relative;display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:34px 22px;margin:0 0 24px;padding:72px 12px 18px}
+.dashboard-grid:before{pointer-events:none;content:"";position:absolute;top:46px;left:8%;right:8%;height:2px;background:#c9d8e8}
+.dashboard-grid:after{pointer-events:none;content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:230px;height:56px;background:linear-gradient(180deg,#edf6ff,#fff);border:2px solid #b9d1ea;border-radius:16px;box-shadow:0 8px 22px rgba(20,45,80,.08)}
+.network-root{position:absolute;z-index:3;top:8px;left:50%;transform:translateX(-50%);min-width:210px;text-align:center;padding:11px 18px;border-radius:14px;background:#fff;border:2px solid #0b4f9c;color:#0b4f9c;font-weight:900;box-shadow:0 8px 24px rgba(20,45,80,.12)}
+.dash-card{position:relative;overflow:visible;touch-action:manipulation;border:1px solid #dfe8f2;background:linear-gradient(145deg,#fff,#f7fbff);border-radius:18px;padding:16px;cursor:pointer;box-shadow:0 7px 24px rgba(20,45,80,.07);transition:.2s;z-index:2}
+.dash-card:before{content:"";position:absolute;top:-35px;left:50%;width:2px;height:35px;background:#c9d8e8}
+.dash-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(20,45,80,.13);border-color:#8fb8e2}
+.dash-card:after{content:"↗";position:absolute;right:12px;bottom:11px;color:#0b4f9c;font-weight:900}
+.dash-icon{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:#edf5ff;font-size:26px;margin-bottom:11px}
+.dash-card h4{margin:0 0 5px;font-size:15px;color:#172033;padding-right:20px}
+.dash-card p{margin:0;color:#69778b;font-size:12px;line-height:1.5;padding-right:12px}
+.dash-count{position:absolute;right:10px;top:10px;background:#0b4f9c;color:#fff;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800}
+.dash-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 13px}
+.dash-top h3{margin:0;font-size:19px}
+.dash-top span{font-size:12px;color:#718096}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.quick{background:#fff;border:1px solid #e3eaf3;border-radius:14px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.quick b{font-size:13px}.quick small{display:block;color:#758195;margin-top:2px}
+.inside-head{display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,#fff,#edf6ff);border:1px solid #dceafa;border-radius:16px;padding:14px 16px;margin:4px 0 18px;box-shadow:var(--shadow)}
+.inside-head .back{border:1px solid #c7d7e8;background:#fff;color:#0b4f9c;border-radius:10px;padding:9px 13px;cursor:pointer;font-weight:800;white-space:nowrap}
+.inside-head .inside-icon{width:48px;height:48px;border-radius:13px;background:#edf5ff;display:grid;place-items:center;font-size:24px}
+.inside-head h3{margin:0 0 3px;font-size:19px}.inside-head p{margin:0;color:#718096;font-size:12px}
+@media(max-width:1050px){.dashboard-grid{grid-template-columns:repeat(3,minmax(140px,1fr))}}
+@media(max-width:800px){.dashboard-grid{grid-template-columns:repeat(2,minmax(130px,1fr));gap:28px 10px;padding:68px 4px 10px}.dashboard-grid:before{left:10%;right:10%}.dashboard-grid:after{width:190px}.network-root{min-width:175px;font-size:13px}.dash-card{padding:13px}.dash-card:before{top:-29px;height:29px}.dash-icon{width:45px;height:45px;font-size:22px}.quick-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.dashboard-grid{grid-template-columns:1fr;gap:12px;padding:64px 6px 6px}.dashboard-grid:before{left:16px;right:auto;top:48px;bottom:12px;width:2px;height:auto}.dashboard-grid:after{width:180px}.network-root{min-width:165px}.dash-card{margin-left:28px}.dash-card:before{left:-30px;top:50%;width:30px;height:2px}.dash-card:after{right:12px}.quick-grid{grid-template-columns:1fr}}
+
+/* Link Manager category view */
+.manager-cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.manager-cat{border:1px solid #dce6f1;background:linear-gradient(145deg,#fff,#f5faff);border-radius:15px;padding:14px;cursor:pointer;text-align:left;box-shadow:0 5px 18px rgba(20,45,80,.06);transition:.18s;position:relative}
+.manager-cat:hover{transform:translateY(-2px);border-color:#8fb8e2}
+.manager-cat .mc-icon{font-size:27px;margin-bottom:7px}.manager-cat b{display:block;font-size:14px}.manager-cat small{color:#718096}.manager-cat .mc-count{position:absolute;right:10px;top:10px;background:#0b4f9c;color:#fff;border-radius:999px;padding:3px 7px;font-size:10px}
+.manager-head{display:flex;align-items:center;gap:10px;margin:12px 0;padding:11px;border:1px solid #dceafa;background:#f5faff;border-radius:12px}.manager-head button{border:1px solid #c7d7e8;background:#fff;color:#0b4f9c;border-radius:9px;padding:8px 11px;cursor:pointer;font-weight:800}.manager-head .mh-icon{font-size:24px}.manager-head h4{margin:0 0 2px}.manager-head small{color:#718096}
+.manager-link{display:flex;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0f4}.manager-link .ml-icon{font-size:21px}.manager-link .ml-info{flex:1;min-width:0}.manager-link .ml-info b{display:block}.manager-link .ml-info small{display:block;color:#718096;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}.manager-actions{display:flex;gap:6px;flex-wrap:wrap}
+@media(max-width:800px){.manager-cats{grid-template-columns:1fr 1fr}.manager-link{align-items:flex-start}.manager-actions{flex-direction:column}}
+@media(max-width:480px){.manager-cats{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="logo">🇧🇩</div>
+  <div class="brand"><h1>বাংলাদেশ নাগরিক সেবা</h1><small>Smart Service Desk • Official Portal Launcher</small></div>
+  <button class="menuBtn" onclick="openDrawer()">☰ মেনু</button>
+</header>
+
+<div class="layout">
+<aside class="side" id="side">
+  <div class="navtitle">ড্যাশবোর্ড</div>
+  <button class="nav active" onclick="showAll()">🏠 সকল সেবা</button>
+  <button class="nav" onclick="showFav()">⭐ পছন্দের সেবা</button>
+  <button class="nav" onclick="openHistory()">🕘 সাম্প্রতিক ব্যবহার</button>
+  <div class="navtitle">সেবা বিভাগ</div>
+  <button class="nav" onclick="filterCat('nid')">🪪 NID</button>
+  <button class="nav" onclick="filterCat('birth')">👶 জন্ম/মৃত্যু</button>
+  <button class="nav" onclick="filterCat('tax')">💰 কর/ট্যাক্স</button>
+  <button class="nav" onclick="filterCat('land')">🌳 ভূমি</button>
+  <button class="nav" onclick="filterCat('license')">📄 লাইসেন্স</button>
+  <button class="nav" onclick="filterCat('clearance')">🛡️ ক্লিয়ারেন্স</button>
+  <button class="nav" onclick="filterCat('passport')">🛂 পাসপোর্ট</button>
+  <button class="nav" onclick="filterCat('transport')">🚗 BRTA</button>
+  <button class="nav" onclick="filterCat('rail')">🚆 রেলওয়ে</button>
+  <button class="nav" onclick="filterCat('education')">🎓 শিক্ষা</button>
+  <button class="nav" onclick="filterCat('social')">🤝 সমাজকল্যাণ</button>
+  <button class="nav" onclick="filterCat('other')">🏛️ অন্যান্য</button>
+  <div class="navtitle">টুলস</div>
+  <button class="nav" onclick="openNotes()">📝 ব্যক্তিগত নোট</button>
+  <button class="nav" onclick="openServiceManager()">🔗 সেবা/লিংক ম্যানেজার</button>
+  <button class="nav" onclick="exportData()">💾 ব্যাকআপ</button>
+  <button class="nav" onclick="resetLocal()">♻️ লোকাল ডেটা রিসেট</button>
+</aside>
+
+<main class="main">
+  <div class="hero">
+    <div>
+      <h2>🇧🇩 নাগরিক সেবা ড্যাশবোর্ড</h2>
+      <p>প্রয়োজনীয় সরকারি অনলাইন সেবাগুলো বিভাগ অনুযায়ী এক জায়গায় সাজানো।</p>
+    </div>
+    <div class="heroBtns">
+      <button class="btn primary" onclick="showAll()">🏠 সব সেবা</button>
+      <button class="btn light" onclick="openServiceManager()">🔗 লিংক ম্যানেজার</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b id="total">0</b><span>মোট সেবা</span></div>
+    <div class="stat"><b id="favCount">0</b><span>পছন্দের সেবা</span></div>
+    <div class="stat"><b id="visitCount">0</b><span>ব্যবহৃত সেবা</span></div>
+    <div class="stat"><b id="noteCount">0</b><span>সংরক্ষিত নোট</span></div>
+  </div>
+  
+  <div class="dash-top">
+    <h3>📌 সেবা বিভাগ</h3>
+    <span>কার্ডে ক্লিক করে বিভাগ খুলুন</span>
+  </div>
+  <div id="dashboardCategories" class="dashboard-grid"><div class="network-root">🇧🇩 বাংলাদেশ নাগরিক সেবা<br><small style="font-weight:600;color:#718096">সেবা বিভাগ</small></div></div>
+  <div class="dash-top">
+    <h3>⚡ দ্রুত সেবা</h3>
+    <span>সাম্প্রতিক/জনপ্রিয় বিভাগ</span>
+  </div>
+  <div class="quick-grid">
+    <div class="quick" onclick="filterCat('nid')"><span>🪪</span><div><b>NID</b><small>জাতীয় পরিচয়পত্র</small></div></div>
+    <div class="quick" onclick="filterCat('passport')"><span>🛂</span><div><b>পাসপোর্ট</b><small>ই-পাসপোর্ট সেবা</small></div></div>
+    <div class="quick" onclick="filterCat('transport')"><span>🚗</span><div><b>BRTA</b><small>পরিবহন ও লাইসেন্স</small></div></div>
+  </div>
+<input id="search" class="search" placeholder="🔎 সেবার নাম লিখে খুঁজুন..." oninput="render()">
+  <div id="content"></div>
+  <footer>নাগরিক সহায়ক ড্যাশবোর্ড — সরকারি সেবার বিকল্প নয়। সরকারি পোর্টাল পরিবর্তিত হলে লিংক আপডেট করতে হবে।</footer>
+</main>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer"><h3>☰ মেনু</h3><div id="drawerNav"></div></div>
+
+<div class="modalBg" id="modalBg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
+
+<script>
+const defaultServices=[
+{id:'nid-edit',cat:'nid',icon:'🪪',title:'এনআইডি তথ্য সংশোধন',desc:'জাতীয় পরিচয়পত্রের তথ্য সংশোধনের সরকারি অনলাইন পোর্টাল',url:'https://services.nidw.gov.bd/nid-pub/'},
+{id:'nid-new',cat:'nid',icon:'➕',title:'নতুন এনআইডি আবেদন',desc:'নতুন ভোটার/NID আবেদন ও প্রয়োজনীয় প্রক্রিয়া',url:'https://services.nidw.gov.bd/nid-pub/'},
+{id:'nid-pdf',cat:'nid',icon:'📄',title:'এনআইডি PDF কপি',desc:'অনুমোদিত হলে অনলাইন কপি ডাউনলোডের জন্য NID পোর্টাল',url:'https://services.nidw.gov.bd/nid-pub/'},
+{id:'nid-server',cat:'nid',icon:'🗄️',title:'এনআইডি সার্ভার কপি',desc:'NID-এর অফিসিয়াল অনলাইন সেবা/অ্যাকাউন্ট পোর্টাল',url:'https://services.nidw.gov.bd/nid-pub/'},
+{id:'nid-reissue',cat:'nid',icon:'♻️',title:'এনআইডি কার্ড রিইস্যু',desc:'হারানো/নষ্ট কার্ডের রিইস্যু সংক্রান্ত অনলাইন সেবা',url:'https://services.nidw.gov.bd/nid-pub/'},
+{id:'birth-edit',cat:'birth',icon:'📜',title:'জন্ম নিবন্ধন সংশোধন',desc:'জন্ম নিবন্ধনের তথ্য সংশোধনের আবেদন',url:'https://bdris.gov.bd/'},
+{id:'birth-new',cat:'birth',icon:'👶',title:'নতুন জন্ম নিবন্ধন আবেদন',desc:'অনলাইনে নতুন জন্ম নিবন্ধন আবেদন',url:'https://bdris.gov.bd/'},
+{id:'birth-verify',cat:'birth',icon:'🔎',title:'জন্ম নিবন্ধন অনলাইন যাচাই',desc:'১৭ অংকের জন্ম নিবন্ধন নম্বর ও জন্মতারিখ দিয়ে যাচাই',url:'https://everify.bdris.gov.bd/'},
+{id:'tin',cat:'tax',icon:'TIN',title:'ই-টিন (e-TIN) নিবন্ধন',desc:'করদাতা নিবন্ধন, e-Return ও কর সেবা',url:'https://etaxnbr.gov.bd/'},
+{id:'bmet',cat:'license',icon:'💼',title:'BMET আবেদন',desc:'বিদেশগামী কর্মীদের BMET/সংশ্লিষ্ট অনলাইন সেবা',url:'https://bmet.gov.bd/'},
+{id:'passport-new',cat:'passport',icon:'🛂',title:'নতুন ই-পাসপোর্ট আবেদন',desc:'বাংলাদেশ ই-পাসপোর্টের নতুন আবেদন ও রি-ইস্যু',url:'https://epassport.gov.bd/'},
+{id:'passport-status',cat:'passport',icon:'🔎',title:'পাসপোর্ট আবেদন যাচাই',desc:'ই-পাসপোর্ট/পাসপোর্ট আবেদন ও স্ট্যাটাস সংক্রান্ত অফিসিয়াল সেবা',url:'https://epassport.gov.bd/'},
+{id:'passport-verify',cat:'passport',icon:'✅',title:'পাসপোর্ট/ডকুমেন্ট যাচাই',desc:'ইমিগ্রেশন ও পাসপোর্ট অধিদপ্তরের Document Verification তথ্য',url:'https://epassport.gov.bd/'},
+{id:'brta-bsp',cat:'transport',icon:'🚗',title:'BRTA BSP',desc:'ড্রাইভিং লাইসেন্স, স্মার্ট কার্ড, নবায়ন, ডুপ্লিকেট ও মোটরযান সেবা',url:'https://bsp.brta.gov.bd/'},
+{id:'brta-verify',cat:'transport',icon:'🔍',title:'BRTA যাচাই',desc:'ড্রাইভিং লাইসেন্স, ই-ফিটনেস, ই-ট্যাক্স টোকেনসহ যাচাই সেবা',url:'https://bsp.brta.gov.bd/'},
+{id:'rail-ticket',cat:'rail',icon:'🚆',title:'বাংলাদেশ রেলওয়ে ই-টিকিট',desc:'অনলাইনে রেল টিকিট ও যাত্রা সংক্রান্ত সেবা',url:'https://eticket.railway.gov.bd/'},
+{id:'railway',cat:'rail',icon:'🚉',title:'বাংলাদেশ রেলওয়ে',desc:'বাংলাদেশ রেলওয়ের অফিসিয়াল ওয়েবসাইট ও তথ্য',url:'https://railway.gov.bd/'},
+{id:'edu-result',cat:'education',icon:'🎓',title:'শিক্ষা বোর্ড ফলাফল',desc:'SSC, HSC, Dakhil, Alim ও সমমান পরীক্ষার ফলাফল',url:'https://www.educationboardresults.gov.bd/v2/home'},
+{id:'edu-dshe',cat:'education',icon:'🏫',title:'মাধ্যমিক ও উচ্চশিক্ষা অধিদপ্তর',desc:'শিক্ষা সংক্রান্ত সরকারি তথ্য, ই-সেবা ও গুরুত্বপূর্ণ লিংক',url:'https://dshe.gov.bd/'},
+{id:'edu-ministry',cat:'education',icon:'📚',title:'শিক্ষা মন্ত্রণালয় / myGov',desc:'শিক্ষা ও শিক্ষার্থী সংক্রান্ত সরকারি সেবা খুঁজুন',url:'https://www.mygov.bd/services'},
+{id:'social-dss',cat:'social',icon:'🤝',title:'সমাজসেবা অধিদপ্তর',desc:'সমাজসেবা, প্রতিবন্ধিতা ও সামাজিক নিরাপত্তা সংক্রান্ত সরকারি সেবা',url:'https://dss.gov.bd/'},
+{id:'social-mygov',cat:'social',icon:'🧑‍🤝‍🧑',title:'সামাজিক নিরাপত্তা ও myGov সেবা',desc:'myGov-এ বিভিন্ন সরকারি সামাজিক সেবা অনুসন্ধান ও আবেদন',url:'https://www.mygov.bd/services'},
+{id:'mygov',cat:'other',icon:'🏛️',title:'myGov — সকল সরকারি সেবা',desc:'এক ঠিকানায় সরকারি G2C, G2B ও G2G অনলাইন সেবা',url:'https://www.mygov.bd/services'},
+{id:'gov-portal',cat:'other',icon:'🇧🇩',title:'বাংলাদেশ জাতীয় তথ্য বাতায়ন',desc:'সরকারি দপ্তর, তথ্য ও নাগরিক সেবার কেন্দ্রীয় তথ্য',url:'https://bangladesh.gov.bd/'},
+{id:'pcc',cat:'clearance',icon:'🛡️',title:'পুলিশ ক্লিয়ারেন্স আবেদন',desc:'অনলাইন Police Clearance Certificate আবেদন',url:'https://pcc.police.gov.bd/'},
+{id:'trade',cat:'license',icon:'📋',title:'ট্রেড লাইসেন্স আবেদন/নবায়ন',desc:'ই-ট্রেড লাইসেন্সের সরকারি পোর্টাল',url:'https://www.etradelicense.gov.bd/Default.aspx'},
+{id:'land-tax',cat:'land',icon:'🌳',title:'ভূমি উন্নয়ন কর',desc:'হোল্ডিং নিবন্ধন, ভূমি উন্নয়ন কর ও দাখিলা',url:'https://ldtax.gov.bd/'},
+{id:'land-map',cat:'land',icon:'📍',title:'খতিয়ান ও মৌজা তথ্য',desc:'ভূমি রেকর্ড/ম্যাপ ও সংশ্লিষ্ট ভূমি তথ্য',url:'https://map.land.gov.bd/'}
+];
+
+const cats={nid:'NID সেবা',birth:'জন্ম ও নিবন্ধন',passport:'পাসপোর্ট সেবা',transport:'BRTA / পরিবহন',rail:'বাংলাদেশ রেলওয়ে',education:'শিক্ষা ও শিক্ষা বোর্ড',tax:'কর ও ট্যাক্স',land:'ভূমি সেবা',license:'লাইসেন্স ও কর্মসংস্থান',clearance:'ক্লিয়ারেন্স',social:'সমাজকল্যাণ',other:'অন্যান্য সরকারি সেবা'};
+let services=JSON.parse(localStorage.getItem('ss_services')||'null') || defaultServices.map(x=>({...x}));
+// Built-in service URL repair: updates only known built-in IDs; user-created services are preserved.
+const officialUrlFixes={
+'nid-edit':'https://services.nidw.gov.bd/nid-pub/',
+'nid-new':'https://services.nidw.gov.bd/nid-pub/',
+'nid-pdf':'https://services.nidw.gov.bd/nid-pub/',
+'nid-server':'https://services.nidw.gov.bd/nid-pub/',
+'nid-reissue':'https://services.nidw.gov.bd/nid-pub/',
+'birth-edit':'https://bdris.gov.bd/',
+'birth-new':'https://bdris.gov.bd/',
+'birth-verify':'https://everify.bdris.gov.bd/',
+'tin':'https://etaxnbr.gov.bd/',
+'bmet':'https://bmet.gov.bd/',
+'passport-new':'https://epassport.gov.bd/',
+'passport-status':'https://epassport.gov.bd/',
+'passport-verify':'https://epassport.gov.bd/',
+'brta-bsp':'https://bsp.brta.gov.bd/',
+'brta-verify':'https://bsp.brta.gov.bd/',
+'rail-ticket':'https://eticket.railway.gov.bd/',
+'railway':'https://railway.gov.bd/',
+'edu-result':'https://www.educationboardresults.gov.bd/v2/home',
+'edu-dshe':'https://dshe.gov.bd/',
+'edu-ministry':'https://www.mygov.bd/services',
+'social-dss':'https://dss.gov.bd/',
+'social-mygov':'https://www.mygov.bd/services',
+'mygov':'https://www.mygov.bd/services',
+'gov-portal':'https://bangladesh.gov.bd/',
+'pcc':'https://pcc.police.gov.bd/',
+'trade':'https://www.etradelicense.gov.bd/Default.aspx',
+'land-tax':'https://ldtax.gov.bd/',
+'land-map':'https://map.land.gov.bd/'
+};
+let repaired=false; services=services.map(s=>{if(officialUrlFixes[s.id] && s.url!==officialUrlFixes[s.id]){repaired=true;return {...s,url:officialUrlFixes[s.id]};}return s;});
+if(repaired)localStorage.setItem('ss_services',JSON.stringify(services));
+let current='all', fav=JSON.parse(localStorage.getItem('ss_fav')||'[]'), visits=JSON.parse(localStorage.getItem('ss_visits')||'{}'), notes=JSON.parse(localStorage.getItem('ss_notes')||'[]');
+
+function save(){localStorage.setItem('ss_services',JSON.stringify(services));localStorage.setItem('ss_fav',JSON.stringify(fav));localStorage.setItem('ss_visits',JSON.stringify(visits));localStorage.setItem('ss_notes',JSON.stringify(notes));updateStats()}
+function updateStats(){fav=fav.filter(id=>services.some(s=>s.id===id));document.getElementById('total').textContent=services.length;document.getElementById('favCount').textContent=fav.length;document.getElementById('visitCount').textContent=Object.keys(visits).filter(id=>services.some(s=>s.id===id)).length;document.getElementById('noteCount').textContent=notes.length}
+function card(s){let on=fav.includes(s.id);return `<article class="card"><button class="fav ${on?'on':''}" title="পছন্দে রাখুন" onclick="toggleFav('${s.id}')">${on?'★':'☆'}</button><div class="icon">${s.icon}</div><h4>${s.title}</h4><p>${s.desc}</p><div class="actions"><button class="btn primary small" onclick="openService('${s.id}')">খুলুন ↗</button><button class="btn light small" onclick="copyLink('${s.id}')">লিংক কপি</button></div></article>`}
+
+const catMeta={
+ nid:['🪪','NID সেবা','জাতীয় পরিচয়পত্র ও ভোটার সেবা'],
+ birth:['👶','জন্ম ও নিবন্ধন','জন্ম ও মৃত্যু নিবন্ধন'],
+ passport:['🛂','পাসপোর্ট সেবা','ই-পাসপোর্ট ও যাচাই'],
+ transport:['🚗','BRTA / পরিবহন','ড্রাইভিং ও যানবাহন সেবা'],
+ education:['🎓','শিক্ষা ও শিক্ষা বোর্ড','ফলাফল ও শিক্ষা সেবা'],
+ tax:['💰','কর ও ট্যাক্স','TIN ও কর সংক্রান্ত সেবা'],
+ land:['🌳','ভূমি সেবা','ভূমি, খতিয়ান ও কর'],
+ license:['📋','লাইসেন্স ও কর্মসংস্থান','ট্রেড লাইসেন্স ও কর্মসংস্থান'],
+ clearance:['🛡️','ক্লিয়ারেন্স','পুলিশ ও অন্যান্য ক্লিয়ারেন্স'],
+ social:['🤝','সমাজকল্যাণ','সামাজিক নিরাপত্তা ও কল্যাণ'],
+ rail:['🚆','বাংলাদেশ রেলওয়ে','টিকিট ও রেলওয়ে তথ্য'],
+ other:['🏛️','অন্যান্য সরকারি সেবা','অন্যান্য গুরুত্বপূর্ণ সরকারি পোর্টাল']
+};
+function renderDashboardCategories(){
+  const el=document.getElementById('dashboardCategories');
+  if(!el)return;
+  const root='<div class="network-root">🇧🇩 বাংলাদেশ নাগরিক সেবা<br><small style="font-weight:600;color:#718096">সেবা বিভাগ</small></div>';
+  el.innerHTML=root+Object.entries(catMeta).map(([key,m])=>{
+    const count=services.filter(s=>s.cat===key).length;
+    return `<div class="dash-card" data-category="${key}" role="button" tabindex="0">
+      <span class="dash-count">${count} সেবা</span>
+      <div class="dash-icon">${m[0]}</div>
+      <h4>${m[1]}</h4>
+      <p>${m[2]}</p>
+    </div>`;
+  }).join('');
+}
+
+function applyView(view, doScroll=true){
+  current=view||'all';
+  const search=document.getElementById('search');
+  if(search) search.value='';
+  const catsBox=document.getElementById('dashboardCategories');
+  const quick=document.querySelector('.quick-grid');
+  const tops=document.querySelectorAll('.dash-top');
+  const inside=current!=='all' && current!=='fav';
+  if(catsBox) catsBox.style.display=inside||current==='fav'?'none':'grid';
+  if(quick) quick.style.display=inside||current==='fav'?'none':'grid';
+  tops.forEach(x=>x.style.display=inside||current==='fav'?'none':'flex');
+  render();
+  if(doScroll) window.scrollTo({top:0,behavior:'smooth'});
+}
+function pushAppView(view){
+  try{history.pushState({citizenServiceApp:true,view:view},'',location.href.split('#')[0]+'#'+encodeURIComponent(view));}catch(e){history.pushState({citizenServiceApp:true,view:view},'');}
+}
+function enterCategory(c, fromPop=false){
+  if(!catMeta[c]) return;
+  if(!fromPop) pushAppView(c);
+  applyView(c);
+  closeDrawer();
+}
+function backToCategories(fromPop=false){
+  if(!fromPop && history.state && history.state.citizenServiceApp && history.state.view!=='all'){
+    history.back();
+    return;
+  }
+  applyView('all');
+}
+function showAll(fromPop=false){
+  if(!fromPop) pushAppView('all');
+  applyView('all');
+  closeDrawer();
+}
+function showFav(fromPop=false){
+  if(!fromPop) pushAppView('fav');
+  applyView('fav');
+  closeDrawer();
+}
+function filterCat(c, fromPop=false){
+  if(!catMeta[c] && !Object.keys(cats).includes(c)) return;
+  if(!fromPop) pushAppView(c);
+  applyView(c);
+  closeDrawer();
+}
+
+// Android/Chrome hardware Back: internal category navigation-এর history অনুসরণ করবে।
+// মূল Dashboard-এ থাকলে browser স্বাভাবিকভাবে Back করবে, অর্থাৎ সফটওয়্যার থেকে বের হতে পারবে।
+window.addEventListener('popstate',function(e){
+  const state=e.state;
+  if(state && state.citizenServiceApp && state.view){
+    applyView(state.view);
+  }else{
+    // অ্যাপের আগের কোনো state না থাকলে dashboard-কে নিরাপদ fallback হিসেবে দেখাই।
+    applyView('all');
+  }
+});
+// প্রথমবার খোলার সময় একটি App history state রাখি, যাতে category-তে গিয়ে Back করলে
+// সরাসরি অ্যাপ বন্ধ না হয়ে আগের Dashboard view-তে ফেরা যায়।
+try{
+  if(!history.state || !history.state.citizenServiceApp){
+    history.replaceState({citizenServiceApp:true,view:'all'},'',location.href.split('#')[0]+'#all');
+  }
+}catch(e){}
+
+function render(){
+  renderDashboardCategories();
+  const q=(document.getElementById('search').value||'').toLowerCase().trim();
+  const arr=services.filter(s=>(current==='all'||current===s.cat)&&(current!=='fav'||fav.includes(s.id))&&((s.title+s.desc+s.cat).toLowerCase().includes(q)));
+  let html='';
+  if(current!=='all'&&current!=='fav'){
+    const m=catMeta[current]||['📂',cats[current]||'সেবা',''];
+    html+=`<div class="inside-head"><button class="back" onclick="backToCategories()">← বিভাগসমূহ</button><div class="inside-icon">${m[0]}</div><div><h3>${m[1]}</h3><p>${m[2]} • ${arr.length}টি সেবা</p></div></div>`;
+  }
+  if(current==='fav') html+='<div class="section"><h3>⭐ পছন্দের সেবা</h3><span class="count">'+arr.length+'টি</span></div>';
+  if(!arr.length)return document.getElementById('content').innerHTML=html+'<div class="empty">এই বিভাগে কোনো সেবা পাওয়া যায়নি।</div>';
+  if(current==='all'){for(const c of Object.keys(cats)){let x=arr.filter(s=>s.cat===c);if(!x.length)continue;html+=`<div class="section"><h3>${cats[c]}</h3><span class="count">${x.length}টি</span></div><div class="grid">${x.map(card).join('')}</div>`}}
+  else html+='<div class="grid">'+arr.map(card).join('')+'</div>';
+  document.getElementById('content').innerHTML=html;
+}
+function showAll(){current='all';document.getElementById('search').value='';document.getElementById('dashboardCategories').style.display='grid';document.querySelector('.quick-grid').style.display='grid';document.querySelectorAll('.dash-top').forEach(x=>x.style.display='flex');render();closeDrawer()}
+function showFav(){current='fav';document.getElementById('search').value='';render();closeDrawer()}
+function filterCat(c){
+  if(!catMeta[c] && !Object.keys(cats).includes(c)) return;
+  current=c;
+  document.getElementById('search').value='';
+  document.getElementById('dashboardCategories').style.display='none';
+  document.querySelector('.quick-grid').style.display='none';
+  document.querySelectorAll('.dash-top').forEach(x=>x.style.display='none');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+  closeDrawer();
+}
+function toggleFav(id){fav=fav.includes(id)?fav.filter(x=>x!==id):[...fav,id];save();render()}
+function openService(id){let s=services.find(x=>x.id===id);if(!s)return;visits[id]=(visits[id]||0)+1;save();location.href=s.url}
+function copyLink(id){let s=services.find(x=>x.id===id);navigator.clipboard?.writeText(s.url).then(()=>toast('লিংক কপি হয়েছে'));if(!navigator.clipboard)prompt('লিংক কপি করুন',s.url)}
+function toast(t){let x=document.createElement('div');x.textContent=t;x.style='position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#172033;color:#fff;padding:10px 16px;border-radius:10px;z-index:99';document.body.appendChild(x);setTimeout(()=>x.remove(),1800)}
+function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').style.display='block';document.getElementById('drawerNav').innerHTML=`<button class="nav" onclick="showAll()">🏠 সকল সেবা</button><button class="nav" onclick="showFav()">⭐ পছন্দের সেবা</button>${Object.entries(cats).map(([k,v])=>`<button class="nav" onclick="filterCat('${k}')">• ${v}</button>`).join('')}<button class="nav" onclick="openNotes();closeDrawer()">📝 নোট</button><button class="nav" onclick="openServiceManager();closeDrawer()">🔗 সেবা/লিংক ম্যানেজার</button><button class="nav" onclick="exportData();closeDrawer()">💾 ব্যাকআপ</button>`}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').style.display='none'}
+
+let managerCategory='all';
+function managerCategoryView(cat='all'){
+  managerCategory=cat;
+  const modal=document.getElementById('modal');
+  const catsHtml=Object.entries(catMeta).map(([k,m])=>{
+    const count=services.filter(s=>s.cat===k).length;
+    return `<button class="manager-cat" onclick="managerCategoryView('${k}')"><span class="mc-count">${count}টি</span><div class="mc-icon">${m[0]}</div><b>${m[1]}</b><small>${m[2]}</small></button>`;
+  }).join('');
+  const addForm=`<div class="note">🔗 লিংক ম্যানেজারে প্রতিটি বিভাগ আলাদা করে রাখা হয়েছে। আগে বিভাগ নির্বাচন করে সেই বিভাগের লিংকগুলো দেখুন। নতুন লিংক যোগ করলে নির্বাচিত বিভাগে সংরক্ষণ হবে।</div>
+    <div class="field"><label>সেবার নাম</label><input id="svcTitle" placeholder="যেমন: নতুন সরকারি সেবা"></div>
+    <div class="field"><label>বিবরণ</label><input id="svcDesc" placeholder="সেবাটির সংক্ষিপ্ত বিবরণ"></div>
+    <div class="field"><label>আইকন/ইমোজি</label><input id="svcIcon" value="🔗"></div>
+    <div class="field"><label>বিভাগ</label><select id="svcCat">${Object.entries(cats).map(([k,v])=>`<option value="${k}" ${managerCategory===k?'selected':''}>${v}</option>`).join('')}</select></div>
+    <div class="field"><label>সেবা/ওয়েবসাইটের লিংক</label><input id="svcUrl" type="url" placeholder="https://example.gov.bd/"></div>
+    <button class="btn primary" onclick="addService()">➕ সেবা যোগ করুন</button>`;
+  let body='';
+  if(cat==='all'){
+    body=`<h3>🔗 সেবা/লিংক ম্যানেজার</h3>${addForm}<hr><h3>📂 বিভাগ অনুযায়ী লিংক</h3><div class="manager-cats">${catsHtml}</div>`;
+  }else{
+    const m=catMeta[cat]||['📂',cats[cat]||'সেবা',''];
+    const arr=services.filter(s=>s.cat===cat);
+    body=`<div class="manager-head"><button onclick="managerCategoryView('all')">← বিভাগসমূহ</button><div class="mh-icon">${m[0]}</div><div><h4>${m[1]}</h4><small>${m[2]} • ${arr.length}টি লিংক</small></div></div>${addForm}<hr><h3>🔗 ${m[1]} — লিংক তালিকা</h3>`;
+    body+=arr.length?arr.map(s=>`<div class="manager-link"><span class="ml-icon">${escapeHtml(s.icon)}</span><div class="ml-info"><b>${escapeHtml(s.title)}</b><small>${escapeHtml(s.url)}</small></div><div class="manager-actions"><button class="btn light small" onclick="openServiceManager('${s.id}')">✏️ এডিট</button><button class="btn danger small" onclick="deleteService('${s.id}')">🗑️ মুছুন</button></div></div>`).join(''):'<div class="empty">এই বিভাগে এখনো কোনো লিংক নেই।</div>';
+  }
+  body+=`<hr><button class="modalBack" onclick="closeModal()">× বন্ধ</button>`;
+  modal.innerHTML=`<button class="modalClose" onclick="closeModal()" title="বন্ধ করুন">×</button>${body}`;
+  document.getElementById('modalBg').style.display='flex';
+}
+function openServiceManager(editId=null){
+  if(editId){
+    const editing=services.find(s=>s.id===editId); if(!editing)return;
+    const catOptions=Object.entries(cats).map(([k,v])=>`<option value="${k}" ${editing.cat===k?'selected':''}>${v}</option>`).join('');
+    document.getElementById('modal').innerHTML=`<button class="modalClose" onclick="closeModal()" title="বন্ধ করুন">×</button><h3>✏️ সেবা/লিংক সম্পাদনা</h3>
+      <div class="note">📂 বিভাগ: ${escapeHtml(catMeta[editing.cat]?.[1]||cats[editing.cat]||'অন্যান্য')}</div>
+      <div class="field"><label>সেবার নাম</label><input id="svcTitle" value="${escapeAttr(editing.title)}"></div>
+      <div class="field"><label>বিবরণ</label><input id="svcDesc" value="${escapeAttr(editing.desc)}"></div>
+      <div class="field"><label>আইকন/ইমোজি</label><input id="svcIcon" value="${escapeAttr(editing.icon)}"></div>
+      <div class="field"><label>বিভাগ</label><select id="svcCat">${catOptions}</select></div>
+      <div class="field"><label>সেবা/ওয়েবসাইটের লিংক</label><input id="svcUrl" type="url" value="${escapeAttr(editing.url)}"></div>
+      <button class="btn primary" onclick="updateService('${editing.id}')">💾 আপডেট করুন</button>
+      <button class="modalBack" onclick="managerCategoryView('${editing.cat}')">← বিভাগে ফিরে যান</button>
+      <button class="modalBack" onclick="closeModal()">× বন্ধ</button>`;
+    document.getElementById('modalBg').style.display='flex';
+    return;
+  }
+  managerCategoryView('all');
+}
+
+// বিভাগ কার্ডের নির্ভরযোগ্য ক্লিক/টাচ হ্যান্ডলার — data-category ব্যবহার করে।
+(function bindCategoryNavigation(){
+  const box=document.getElementById('dashboardCategories');
+  if(!box)return;
+  box.addEventListener('click',function(e){
+    const card=e.target.closest('.dash-card');
+    if(card && box.contains(card)){
+      const cat=card.dataset.category;
+      if(cat) enterCategory(cat);
+    }
+  });
+  box.addEventListener('keydown',function(e){
+    if(e.key==='Enter' || e.key===' '){
+      const card=e.target.closest('.dash-card');
+      if(card && box.contains(card)){
+        e.preventDefault();
+        const cat=card.dataset.category;
+        if(cat) enterCategory(cat);
+      }
+    }
+  });
+})();
+
+function escapeAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function addService(){
+  const title=document.getElementById('svcTitle').value.trim(), desc=document.getElementById('svcDesc').value.trim(), icon=document.getElementById('svcIcon').value.trim()||'🔗', cat=document.getElementById('svcCat').value, url=document.getElementById('svcUrl').value.trim();
+  if(!title||!url){toast('সেবার নাম ও লিংক দিন');return}
+  try{new URL(url)}catch(e){toast('সঠিক URL দিন, যেমন https://example.gov.bd/');return}
+  const id='custom-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);
+  services.push({id,cat,icon,title,desc:desc||'ব্যবহারকারীর যোগ করা সেবা',url});
+  save(); render(); openServiceManager(); toast('নতুন সেবা যোগ হয়েছে');
+}
+function updateService(id){
+  const s=services.find(x=>x.id===id); if(!s)return;
+  const title=document.getElementById('svcTitle').value.trim(), desc=document.getElementById('svcDesc').value.trim(), icon=document.getElementById('svcIcon').value.trim()||'🔗', cat=document.getElementById('svcCat').value, url=document.getElementById('svcUrl').value.trim();
+  if(!title||!url){toast('সেবার নাম ও লিংক দিন');return}
+  try{new URL(url)}catch(e){toast('সঠিক URL দিন');return}
+  Object.assign(s,{title,desc:desc||'সেবা',icon,cat,url});
+  save(); render(); openServiceManager(); toast('সেবা আপডেট হয়েছে');
+}
+function deleteService(id){
+  const s=services.find(x=>x.id===id); if(!s)return;
+  if(!confirm('“'+s.title+'” সেবাটি মুছে ফেলবেন?'))return;
+  services=services.filter(x=>x.id!==id); fav=fav.filter(x=>x!==id); delete visits[id];
+  save(); render(); openServiceManager(); toast('সেবা মুছে ফেলা হয়েছে');
+}
+function repairOfficialLinks(){services=services.map(s=>officialUrlFixes[s.id]?{...s,url:officialUrlFixes[s.id]}:s);save();render();openServiceManager();toast('সরকারি লিংকগুলো আপডেট হয়েছে')}
+function resetServices(){
+  if(!confirm('সব পরিবর্তন বাতিল করে ডিফল্ট সেবার তালিকা ফিরিয়ে আনবেন?'))return;
+  services=defaultServices.map(x=>({...x})); fav=[]; visits={}; save(); render(); openServiceManager(); toast('ডিফল্ট তালিকা পুনরুদ্ধার হয়েছে');
+}
+
+function openHistory(){let items=services.filter(s=>visits[s.id]).sort((a,b)=>(visits[b.id]||0)-(visits[a.id]||0));document.getElementById('modal').innerHTML=`<button class="modalClose" onclick="closeModal()" title="বন্ধ করুন">×</button><h3>🕘 সাম্প্রতিক ব্যবহার</h3>${items.length?items.map(s=>`<div style="padding:10px;border-bottom:1px solid #eee"><b>${s.title}</b><br><small>${visits[s.id]} বার ব্যবহার</small> <button class="btn primary small" onclick="openService('${s.id}')">খুলুন</button></div>`).join(''):'<p>এখনও কোনো সেবা ব্যবহার করা হয়নি।' }<br><br><button class="btn light" onclick="closeModal()">বন্ধ</button>`;document.getElementById('modalBg').style.display='flex'}
+function openNotes(){document.getElementById('modal').innerHTML=`<button class="modalClose" onclick="closeModal()" title="বন্ধ করুন">×</button><h3>📝 ব্যক্তিগত নোট</h3><div class="note">এখানে শুধু আপনার ডিভাইসের ব্রাউজারে নোট সংরক্ষণ হবে। সরকারি পোর্টালে সাবমিট হবে না।</div><div class="field"><label>নতুন নোট</label><textarea id="noteText" rows="4" placeholder="যেমন: প্রয়োজনীয় কাগজপত্র, আবেদন নম্বর, অফিসের সময়..."></textarea></div><button class="btn primary" onclick="addNote()">সংরক্ষণ</button> <button class="btn light" onclick="closeModal()">বন্ধ</button><hr>${notes.map((n,i)=>`<div style="padding:10px 0;border-bottom:1px solid #eee"><b>${n.date}</b><p>${escapeHtml(n.text)}</p><button class="btn danger small" onclick="deleteNote(${i})">মুছুন</button></div>`).join('')}`;document.getElementById('modalBg').style.display='flex'}
+function addNote(){let t=document.getElementById('noteText').value.trim();if(!t)return;notes.unshift({text:t,date:new Date().toLocaleString('bn-BD')});save();openNotes()}
+function deleteNote(i){notes.splice(i,1);save();openNotes()}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function closeModal(){document.getElementById('modalBg').style.display='none'}
+function exportData(){let data={services,favorites:fav,visits,notes,exportedAt:new Date().toISOString()};let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='citizen-service-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('ব্যাকআপ ডাউনলোড হয়েছে')}
+function resetLocal(){if(confirm('পছন্দ, ইতিহাস ও নোট মুছে ফেলবেন?')){localStorage.removeItem('ss_fav');localStorage.removeItem('ss_visits');localStorage.removeItem('ss_notes');fav=[];visits={};notes=[];save();showAll()}}
+updateStats();
+const initialView=(history.state&&history.state.citizenServiceApp&&history.state.view)||'all';
+applyView(initialView,false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+</script>
+</body>
+</html>
